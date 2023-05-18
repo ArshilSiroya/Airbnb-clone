@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, minHeight } from "@mui/system";
+import { Box, Container } from "@mui/system";
 import Logo from "./Logo";
 import {
   flexBetweenCenter,

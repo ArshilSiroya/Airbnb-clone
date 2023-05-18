@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import { Button, Link, Stack, Box, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
@@ -11,11 +11,8 @@ import Modal from "@mui/material/Modal";
 import { FcGoogle } from "react-icons/fc";
 import { BsPhone } from "react-icons/bs";
 import { AiFillFacebook } from "react-icons/ai";
-import { HiOutlineMail } from "react-icons/hi";
-import { auth, db, provider } from "./googleSignIn/config";
+import { auth, provider } from "./googleSignIn/config";
 import { signInWithPopup, FacebookAuthProvider } from "firebase/auth";
-import { GlobalContext, initialState } from "store/store";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 
 import OtpInput from "otp-input-react";
 import PhoneInput from "react-phone-input-2";
@@ -23,8 +20,6 @@ import "react-phone-input-2/lib/style.css";
 import { CgSpinner } from "react-icons/cg";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
-
-const citiesRef = collection(db, "Users");
 
 const style = {
   position: "relative",
@@ -52,16 +47,10 @@ const style2 = {
 };
 
 const ProfileSettings = () => {
-  const { addUser, users } = useContext(GlobalContext);
-
-  const [authen, setAuthen] = useState();
-
-  const [image, setImage] = useState("");
   const [open, setOpen] = useState(false);
   const [otpFail, setOtpFail] = useState(false);
   const [logInModal, setLogInModal] = useState(false);
   const [logInPhone, setLogInPhone] = useState(false);
-  const [phone, setPhone] = useState();
 
   const [otp, setOtp] = useState("");
   const [ph, setPh] = useState("");
@@ -84,12 +73,8 @@ const ProfileSettings = () => {
   };
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider).then(async (data) => {
-      setImage(data.user.photoURL);
       localStorage.setItem("email", data.user.email);
       handleLogInClose();
-      addUser({
-        name: data.user.email,
-      });
 
       window.location.reload();
     });
@@ -119,9 +104,6 @@ const ProfileSettings = () => {
       );
     }
   }
-  useEffect(() => {
-    setAuthen(auth);
-  }, []);
 
   const signInWithPhone = () => {
     handleLogInPhone();
@@ -297,9 +279,6 @@ const ProfileSettings = () => {
             >
               Continue with Phone
             </Button>
-            {/* <Button variant="outlined" startIcon={<HiOutlineMail />} fullWidth>
-              Continue with email
-            </Button> */}
           </>
         </Box>
       </Modal>
@@ -361,7 +340,6 @@ const ProfileSettings = () => {
                         backgroundColor: "#0063cc",
                         color: "#fff  ",
                       }}
-                      // variant="contained"
                     >
                       {loading && (
                         <CircularProgress

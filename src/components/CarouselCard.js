@@ -30,10 +30,6 @@ import { Modal } from "@mui/material";
 const CarouselCard = ({ location, snapData }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [like, setLike] = React.useState();
-  const [data, setData] = React.useState();
-
-  const [oldData, setOldData] = React.useState([]);
-  const [joinData, setJoinData] = React.useState();
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
@@ -48,13 +44,6 @@ const CarouselCard = ({ location, snapData }) => {
     borderRadius: "1%",
     p: 2,
   };
-  useEffect(() => {
-    setData(
-      auth.currentUser?.email
-        ? auth.currentUser?.email
-        : auth.currentUser?.phoneNumber
-    );
-  }, []);
 
   useEffect(() => {
     snapData && snapData.find((val) => val == location.id && setLike(true));
@@ -78,44 +67,37 @@ const CarouselCard = ({ location, snapData }) => {
 
   const HandleLike = async () => {
     !auth.currentUser ? setOpen(true) : setLike(!like);
-    const currentId = location.id;
-    const docRef = doc(db, "Users", data);
-
-    if (!like) {
-      const citiesRef = collection(db, "Users");
-
-      const citySnapshot = await getDocs(citiesRef);
-
-      let citySnapshotData = citySnapshot.docs
-        .map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-        .filter((value) => value.id == data);
-
-      let storedOldData = citySnapshotData[0].favourite.concat(
-        parseInt(currentId)
-      );
-
-      await updateDoc(doc(citiesRef, data), {
-        favourite: storedOldData,
-      });
-    } else {
-      const citiesRef = collection(db, "Users");
-      const citySnapshot = await getDocs(citiesRef);
-
-      let citySnapshotData = citySnapshot.docs
-        .map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-        .filter((value) => value.id == data)[0]
-        .favourite.filter((value) => value != currentId);
-
-      await updateDoc(doc(citiesRef, data), {
-        favourite: citySnapshotData,
-      });
-    }
+    // const currentId = location.id;
+    // const docRef = doc(db, "Users", data);
+    // if (!like) {
+    //   const citiesRef = collection(db, "Users");
+    //   const citySnapshot = await getDocs(citiesRef);
+    //   let citySnapshotData = citySnapshot.docs
+    //     .map((doc) => ({
+    //       ...doc.data(),
+    //       id: doc.id,
+    //     }))
+    //     .filter((value) => value.id == data);
+    //   let storedOldData = citySnapshotData[0].favourite.concat(
+    //     parseInt(currentId)
+    //   );
+    //   await updateDoc(doc(citiesRef, data), {
+    //     favourite: storedOldData,
+    //   });
+    // } else {
+    //   const citiesRef = collection(db, "Users");
+    //   const citySnapshot = await getDocs(citiesRef);
+    //   let citySnapshotData = citySnapshot.docs
+    //     .map((doc) => ({
+    //       ...doc.data(),
+    //       id: doc.id,
+    //     }))
+    //     .filter((value) => value.id == data)[0]
+    //     .favourite.filter((value) => value != currentId);
+    //   await updateDoc(doc(citiesRef, data), {
+    //     favourite: citySnapshotData,
+    //   });
+    // }
   };
 
   return (

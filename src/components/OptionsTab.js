@@ -1,8 +1,8 @@
 import { Tab, Tabs, tabsClasses, Container, Button, Box } from "@mui/material";
-import { red } from "@mui/material/colors";
 import { locationsTab } from "data/mock-data";
 import React from "react";
 import { FaFilter } from "react-icons/fa";
+
 const OptionsTab = (props) => {
   const [value, setValue] = React.useState(0);
   props.setValue(value);

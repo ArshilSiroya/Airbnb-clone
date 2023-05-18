@@ -13,7 +13,6 @@ import { locationsTab } from "data/mock-data";
 
 function App() {
   const [value, setValue] = useState(0);
-  const [data, setData] = useState();
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;

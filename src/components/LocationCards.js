@@ -4,7 +4,6 @@ import CarouselCard from "./CarouselCard";
 
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { auth, db } from "./googleSignIn/config";
-// const citiesRef = collection(db, "locations");
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const citiesRef = collection(db, "Cabins");
@@ -23,8 +22,8 @@ const LocationCards = (props) => {
     const data = await getDocs(details);
     setDataFb(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
-    auth.currentUser.email && setLogData(auth.currentUser.email);
-    auth.currentUser.phoneNumber && setLogData(auth.currentUser.phoneNumber);
+    auth.currentUser?.email && setLogData(auth.currentUser.email);
+    auth.currentUser?.phoneNumber && setLogData(auth.currentUser.phoneNumber);
     logData && fetchData();
   };
 
@@ -39,7 +38,7 @@ const LocationCards = (props) => {
         id: doc.id,
       }))
       .filter((value) => value.id == logData)
-      .filter((value) => value)[0].favourite;
+      .filter((value) => value)[0]?.favourite;
     setCitySnapshotData(SnapshotData);
   };
 
