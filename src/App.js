@@ -12,7 +12,6 @@ import MobileFooter from "components/MobileFooter";
 import { locationsTab } from "data/mock-data";
 
 function App() {
-  //value
   const [value, setValue] = useState(0);
 
   function TabPanel(props) {
